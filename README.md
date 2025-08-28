@@ -14,8 +14,6 @@ The simulations utilize datasets from two empirical studies:
 The code is organized into the following folders, each containing scripts for calculations (simulations and dataset generation) and visualizations (figure production). Scripts typically generate intermediate datasets that are then used by visualization notebooks to produce figures for the paper. All calculation and visualization scripts are physically located in `./Emergent_Directedness_Code`.
 
 ### asymmetry_threshold_correlation
-This folder contains scripts for analyzing asymmetry in thresholds and correlations, revealing how complex contagions induce directed pathways.
-
 - **Calculation Scripts** (located in `./Emergent_Directedness_Code`):
   - `asymmetry_calculations_ICM_only.py`: Generates datasets for Figure 13 (asymmetry in Independent Cascade Model variants).
   - `asymmetry_calculations_increasing_thresholds.py`: Generates datasets for Figures 2 (basic asymmetry), 5b (comparison with tie strength), 8 (weak tie directedness), 9 (noisy thresholds), 10 (stochastic effects), and 14 (threshold scaling).
@@ -26,8 +24,6 @@ This folder contains scripts for analyzing asymmetry in thresholds and correlati
   - `visualize_asymmetry_threshold.ipynb`: Uses datasets from the calculation scripts to produce Figures 2, 5b, 8, 9, 10, 11, 12, 13, and 14.
 
 ### bridge_building
-This folder handles simulations of bridge formation and their role in directed flow.
-
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `bridge_building_calculations.ipynb`: Runs simulations and produces datasets for bridge structures.
 
@@ -35,20 +31,14 @@ This folder handles simulations of bridge formation and their role in directed f
   - `bridge_building_visualization.ipynb`: Uses the generated datasets to create Figure 6 (directed bridges in small-world networks).
 
 ### causal_path_visualization
-This folder focuses on visualizing causal paths and emergent directedness.
-
 - **Script** (located in `./Emergent_Directedness_Code`):
   - `causal_path_visualization.ipynb`: Contains both simulations and visualizations to produce Figure 20 (extended causal path chains).
 
 ### comparison_plots
-This folder generates comparison plots for tie strength and contagion types.
-
 - **Script** (located in `./Emergent_Directedness_Code`):
   - `comparison_plots.ipynb`: Contains simulations and visualizations to produce Figure 5a (comparing simple vs. complex contagions).
 
 ### convergence
-This folder analyzes convergence of node/edge rankings across simulations.
-
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `convergence_calculations.py`: Runs simulations and creates datasets for sampling stability.
 
@@ -56,8 +46,6 @@ This folder analyzes convergence of node/edge rankings across simulations.
   - `convergence_visualization.ipynb`: Uses the datasets to produce Figures 15, 16, and 17 (convergence of causal importance measures).
 
 ### dip_calculation
-This folder performs calculations for "dip" effects, likely related to nonlinearity in tie impacts.
-
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `dip_calculation.py`: Runs simulations and creates datasets.
 
@@ -65,8 +53,6 @@ This folder performs calculations for "dip" effects, likely related to nonlinear
   - `visualize_dip_calculations.ipynb`: Uses the datasets to produce Figure 22 (dip in influence patterns).
 
 ### heatmaps_tie_ranges
-This folder generates heatmaps and analyzes tie ranges for weak ties.
-
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `calculations_heatmaps.py`: Runs simulations and creates datasets.
 
@@ -74,8 +60,6 @@ This folder generates heatmaps and analyzes tie ranges for weak ties.
   - `heatmaps_and_tie_ranges_visualization.ipynb`: Uses the datasets to produce Figures 3a to 3e (heatmaps of asymmetry) and 18 (tie range distributions).
 
 ### inverse_V_and_Tie_Range
-This folder handles inverse V (inverted U-shape) calculations and tie range analyses, explaining nonlinearity in weak tie impacts (e.g., from LinkedIn job diffusion study).
-
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `inverse_V_calculation.py`: Runs simulations and creates datasets.
 
@@ -106,8 +90,6 @@ Required libraries include:
 4. Example workflow: To reproduce Figure 2, run `asymmetry_calculations_increasing_thresholds.py` then `visualize_asymmetry_threshold.ipynb`.
 
 ## Notes
-### Key Insights Reproduced: 
-The code enables replication of core findings, including how complex contagions create asymmetric paths in undirected networks, preferential one-way spread via weak ties leading to cultural transmission inequalities, inversion of standard centrality (periphery-to-core flow), nonlinearity in tie strength effects, and biases in network rewiring toward directed pathways, moderated by factors like triadic closure.
 ### Limitations and Extensions:
  Simulations emphasize threshold-based complex contagions; extensions to other models (e.g., noisy or probabilistic) are included in specific scripts.
 ### For questions or issues:
