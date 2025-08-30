@@ -15,56 +15,56 @@ The code is organized into the following folders, each containing scripts for ca
 
 ### asymmetry_threshold_correlation
 - **Calculation Scripts** (located in `./Emergent_Directedness_Code`):
-  - `asymmetry_calculations_ICM_only.py`: Generates datasets for Figure 13 (asymmetry in Independent Cascade Model variants).
-  - `asymmetry_calculations_increasing_thresholds.py`: Generates datasets for Figures 2 (basic asymmetry), 5b (comparison with tie strength), 8 (weak tie directedness), 9 (noisy thresholds), 10 (stochastic effects), and 14 (threshold scaling).
-  - `asymmetry_calculations_NOISY.py`: Generates datasets for Figures 9 and 10 (incorporating noisy stochastic subthreshold adoptions).
-  - `asymmetry_calculations_LTM_only.py`: Generates datasets for Figures 11 and 12 (asymmetry in Linear Threshold Model variants).
+  - `asymmetry_calculations_ICM_only.py`: Generates datasets for Figure S5.
+  - `asymmetry_calculations_increasing_thresholds.py`: Generates datasets for Figures 2, 5b, S2, S6, S7, S16
+  - `asymmetry_calculations_NOISY.py`: Generates datasets for Figures S6 and S7.
+  - `asymmetry_calculations_LTM_only.py`: Generates datasets for Figures S3 and S4.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `visualize_asymmetry_threshold.ipynb`: Uses datasets from the calculation scripts to produce Figures 2, 5b, 8, 9, 10, 11, 12, 13, and 14.
+  - `visualize_asymmetry_threshold.ipynb`: Uses datasets from the calculation scripts to produce Figures 2, 5b, S2, S3, S4, S5, S6, S7, S16.
 
 ### bridge_building
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
-  - `bridge_building_calculations.ipynb`: Runs simulations and produces datasets for bridge structures.
+  - `bridge_building_calculations.ipynb`: Runs simulations and produces datasets for bridging simulations.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `bridge_building_visualization.ipynb`: Uses the generated datasets to create Figure 6 (directed bridges in small-world networks).
+  - `bridge_building_visualization.ipynb`: Uses the generated datasets to create Figure 6.
 
 ### causal_path_visualization
 - **Script** (located in `./Emergent_Directedness_Code`):
-  - `causal_path_visualization.ipynb`: Contains both simulations and visualizations to produce Figure 20 (extended causal path chains).
+  - `causal_path_visualization.ipynb`: Contains both simulations and visualizations to produce Figure S14.
 
 ### comparison_plots
 - **Script** (located in `./Emergent_Directedness_Code`):
-  - `comparison_plots.ipynb`: Contains simulations and visualizations to produce Figure 5a (comparing simple vs. complex contagions).
+  - `comparison_plots.ipynb`: Contains simulations and visualizations to produce Figure 5a.
 
 ### convergence
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
-  - `convergence_calculations.py`: Runs simulations and creates datasets for sampling stability.
+  - `convergence_calculations.py`: Runs simulations and creates datasets for convergence analysis.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `convergence_visualization.ipynb`: Uses the datasets to produce Figures 15, 16, and 17 (convergence of causal importance measures).
+  - `convergence_visualization.ipynb`: Uses the datasets to produce Figures S9, S10, and S11.
 
 ### dip_calculation
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `dip_calculation.py`: Runs simulations and creates datasets.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `visualize_dip_calculations.ipynb`: Uses the datasets to produce Figure 22 (dip in influence patterns).
+  - `visualize_dip_calculations.ipynb`: Uses the datasets to produce Figure S8.
 
 ### heatmaps_tie_ranges
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `calculations_heatmaps.py`: Runs simulations and creates datasets.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `heatmaps_and_tie_ranges_visualization.ipynb`: Uses the datasets to produce Figures 3a to 3e (heatmaps of asymmetry) and 18 (tie range distributions).
+  - `heatmaps_and_tie_ranges_visualization.ipynb`: Uses the datasets to produce Figures 3a to 3e and S12.
 
 ### inverse_V_and_Tie_Range
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `inverse_V_calculation.py`: Runs simulations and creates datasets.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `inverse_V_visualization.R`: Uses the datasets to produce Figures 4A (inverted U-shape) and 21 (tie range inversions).
+  - `inverse_V_visualization.R`: Uses the datasets to produce Figures 4A and S15.
 
 ## Usage Instructions
 ### **Dependencies**: 
