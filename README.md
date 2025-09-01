@@ -15,13 +15,13 @@ The code is organized into the following folders, each containing scripts for ca
 
 ### asymmetry_threshold_correlation
 - **Calculation Scripts** (located in `./Emergent_Directedness_Code`):
-  - `asymmetry_calculations_ICM_only.py`: Generates datasets for Figure S5.
-  - `asymmetry_calculations_increasing_thresholds.py`: Generates datasets for Figures 2, 5b, S2, S6, S7, S16
-  - `asymmetry_calculations_NOISY.py`: Generates datasets for Figures S6 and S7.
-  - `asymmetry_calculations_LTM_only.py`: Generates datasets for Figures S3 and S4.
+  - `asymmetry_calculations_ICM_only.py`: Generates datasets for Figure S3.
+  - `asymmetry_calculations_increasing_thresholds.py`: Generates datasets for Figures 2, 5b, S4, S5, S6, S15
+  - `asymmetry_calculations_NOISY.py`: Generates datasets for Figures S4 and S5.
+  - `asymmetry_calculations_LTM_only.py`: Generates datasets for Figures S1 and S2.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `visualize_asymmetry_threshold.ipynb`: Uses datasets from the calculation scripts to produce Figures 2, 5b, S2, S3, S4, S5, S6, S7, S16.
+  - `visualize_asymmetry_threshold.ipynb`: Uses datasets from the calculation scripts to produce Figures 2, 5b, S1, S2, S3, S4, S5, S6, S15.
 
 ### bridge_building
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
@@ -32,7 +32,7 @@ The code is organized into the following folders, each containing scripts for ca
 
 ### causal_path_visualization
 - **Script** (located in `./Emergent_Directedness_Code`):
-  - `causal_path_visualization.ipynb`: Contains both simulations and visualizations to produce Figure S14.
+  - `causal_path_visualization.ipynb`: Contains both simulations and visualizations to produce Figure S13.
 
 ### comparison_plots
 - **Script** (located in `./Emergent_Directedness_Code`):
@@ -43,28 +43,28 @@ The code is organized into the following folders, each containing scripts for ca
   - `convergence_calculations.py`: Runs simulations and creates datasets for convergence analysis.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `convergence_visualization.ipynb`: Uses the datasets to produce Figures S9, S10, and S11.
+  - `convergence_visualization.ipynb`: Uses the datasets to produce Figures S8, S9, and S10.
 
 ### dip_calculation
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `dip_calculation.py`: Runs simulations and creates datasets.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `visualize_dip_calculations.ipynb`: Uses the datasets to produce Figure S8.
+  - `visualize_dip_calculations.ipynb`: Uses the datasets to produce Figure S7.
 
 ### heatmaps_tie_ranges
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `calculations_heatmaps.py`: Runs simulations and creates datasets.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `heatmaps_and_tie_ranges_visualization.ipynb`: Uses the datasets to produce Figures 3a to 3e and S12.
+  - `heatmaps_and_tie_ranges_visualization.ipynb`: Uses the datasets to produce Figures 3a to 3e and S11.
 
 ### inverse_V_and_Tie_Range
 - **Calculation Script** (located in `./Emergent_Directedness_Code`):
   - `inverse_V_calculation.py`: Runs simulations and creates datasets.
 
 - **Visualization Script** (located in `./Emergent_Directedness_Code`):
-  - `inverse_V_visualization.R`: Uses the datasets to produce Figures 4A and S15.
+  - `inverse_V_visualization.R`: Uses the datasets to produce Figures 4A and S14.
 
 ## Usage Instructions
 ### **Dependencies**: 
