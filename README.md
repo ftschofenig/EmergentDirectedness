@@ -90,6 +90,8 @@ Required libraries include:
 4. Example workflow: To reproduce Figure 2, run `asymmetry_calculations_increasing_thresholds.py` then `visualize_asymmetry_threshold.ipynb`.
 
 ## Notes
+### Computation times
+ Run on High-Performance-Clusters (HPC) to get results within hours. Might take weeks to months on normal desktop computers.
 ### Limitations and Extensions:
  Simulations emphasize threshold-based complex contagions; extensions to other models (e.g., noisy or probabilistic) are included in specific scripts.
 ### For questions or issues:
