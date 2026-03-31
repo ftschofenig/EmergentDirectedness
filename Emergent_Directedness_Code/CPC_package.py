@@ -32,35 +32,16 @@ def getBanerjeeGraphs(directory = '../../datav4.0/Data/1. Network Data/Adjacency
     Banerjee_graphs = {}
 
     for filename in tqdm(os.listdir(directory)):
-        if filename.endswith('.csv'):
+        if filename.endswith('.csv') and 'allVillageRelationships' in filename and '_HH_' not in filename:
             filepath = os.path.join(directory, filename)
             adj_matrix = pd.read_csv(filepath, header=None)
-            G = nx.from_pandas_adjacency(adj_matrix)
+            G = nx.from_pandas_adjacency(adj_matrix, create_using=nx.Graph)
 
             village_number = int(re.search(r'(\d+)\.csv$', filename).group(1))
-            if village_number in Banerjee_graphs:
-                Banerjee_graphs[village_number].append(G)
-            else:
-                Banerjee_graphs[village_number] = [G]
+            Banerjee_graphs[village_number] = G
 
             #remove all nodes with degree 0 from the graph
             G.remove_nodes_from(list(nx.isolates(G)))
-
-    Banerjee_graphs_keys = list(Banerjee_graphs.keys())
-    #merge all graphs for each village
-    for i in Banerjee_graphs_keys:
-        #print(i, len(Banerjee_graphs[i]))
-        if len(Banerjee_graphs[i]) > 0:
-            Banerjee_graphs[i] = nx.compose_all(Banerjee_graphs[i])
-            #cast the graph to a simple graph
-            Banerjee_graphs[i] = nx.Graph(Banerjee_graphs[i])
-        else:
-            #remove the entry from the dictionary
-            Banerjee_graphs.pop(i)
-
-    for i in Banerjee_graphs:
-        #remove all nodes with degree 0 from the graph
-        Banerjee_graphs[i].remove_nodes_from(list(nx.isolates(Banerjee_graphs[i])))
 
     #sort the keys by increasing number of nodes
     Banerjee_graphs = {k: v for k, v in sorted(Banerjee_graphs.items(), key=lambda item: item[1].number_of_nodes(), reverse=False)}
@@ -189,7 +170,10 @@ def calcCPCForNetwork(args):
     #the network is represented by an adjacency list and an edge list
     #the threshold is passed as a parameter
     
-    adjacency_dict, threshold_dict, number_of_seeds, disabled_nodes, disabled_edges, adjacency_dict_successors, seeding_function, tqdm_bar, always_active_set, random_portion, randomFactor, model, edgeWeights, probability_noisy, icm_probabilities = args
+    adjacency_dict, threshold_dict, number_of_seeds, disabled_nodes, disabled_edges, adjacency_dict_successors, seeding_function, tqdm_bar, always_active_set, random_portion, randomFactor, model, edgeWeights, probability_noisy, icm_probabilities, symmetric_update, core_number = args
+
+    random.seed(core_number)
+    np.random.seed(core_number)
 
     causal_ambiguity = []
     
@@ -242,10 +226,9 @@ def calcCPCForNetwork(args):
         #2. spread until convergence
         newActivation = True
         t = 0
-        close_distance_approximation = 200
 
         if model == 'GI':
-            while newActivation and t < close_distance_approximation:
+            while newActivation:
                 t += 1
                 newActivation = False
                 for node in activation_times.keys():
@@ -256,15 +239,16 @@ def calcCPCForNetwork(args):
                                 activeNeighborCounter += 1
                         if activeNeighborCounter >= threshold_dict[node]:
                             if node not in disabled_nodes:
-                                activation_times[node] = t
                                 newActivation = True
-                                list_of_nodes_that_became_active.add(node)
-                                causal_ambiguity.append(activeNeighborCounter/threshold_dict[node])
-                                active_neibs_at_activation[node] = activeNeighborCounter
+                                if symmetric_update or random.random() < (1/len(activation_times.keys())):
+                                    activation_times[node] = t
+                                    list_of_nodes_that_became_active.add(node)
+                                    causal_ambiguity.append(activeNeighborCounter/threshold_dict[node])
+                                    active_neibs_at_activation[node] = activeNeighborCounter
         elif model == 'NOISY':
             assert probability_noisy is not None
 
-            while newActivation and t < close_distance_approximation:
+            while newActivation:
                 t += 1
                 newActivation = False
                 for node in activation_times.keys():
@@ -275,8 +259,8 @@ def calcCPCForNetwork(args):
                                 activeNeighborCounter += 1
                         if activeNeighborCounter >= threshold_dict[node]:
                             if node not in disabled_nodes:
-                                activation_times[node] = t
                                 newActivation = True
+                                activation_times[node] = t
                                 list_of_nodes_that_became_active.add(node)
                                 causal_ambiguity.append(activeNeighborCounter/threshold_dict[node])
                                 active_neibs_at_activation[node] = activeNeighborCounter
@@ -292,7 +276,7 @@ def calcCPCForNetwork(args):
         elif model == 'NOISY_SINGLE':
             assert probability_noisy is not None
             transmissions_tried = set()
-            while newActivation and t < close_distance_approximation:
+            while newActivation:
                 t += 1
                 newActivation = False
                 for node in activation_times.keys():
@@ -314,8 +298,8 @@ def calcCPCForNetwork(args):
                         if activeNeighborCounter > 0 and activation_times[node] == -1:
                             if random.random() <= probability_noisy and node not in transmissions_tried:
                                 if node not in disabled_nodes:
-                                    activation_times[node] = t
                                     newActivation = True
+                                    activation_times[node] = t
                                     list_of_nodes_that_became_active.add(node)
                                     causal_ambiguity.append(activeNeighborCounter/threshold_dict[node])
                                     active_neibs_at_activation[node] = activeNeighborCounter
@@ -323,7 +307,7 @@ def calcCPCForNetwork(args):
         elif model == 'LTM':
             assert edgeWeights is not None
 
-            while newActivation and t < close_distance_approximation:
+            while newActivation:
                 t += 1
                 newActivation = False
                 for node in activation_times.keys():
@@ -334,8 +318,8 @@ def calcCPCForNetwork(args):
                                 activeNeighborCounter += edgeWeights[(predecessor, node)] #this way it gets immediately weighted, otherwise its basically the GI model
                         if activeNeighborCounter >= threshold_dict[node]:
                             if node not in disabled_nodes:
-                                activation_times[node] = t
                                 newActivation = True
+                                activation_times[node] = t
                                 list_of_nodes_that_became_active.add(node)
                                 causal_ambiguity.append(activeNeighborCounter/threshold_dict[node])
                                 active_neibs_at_activation[node] = activeNeighborCounter
@@ -343,7 +327,7 @@ def calcCPCForNetwork(args):
             assert icm_probabilities is not None
 
             usedEdges = set()
-            while newActivation and t < close_distance_approximation:
+            while newActivation:
                 t += 1
                 newActivation = False
 
@@ -391,9 +375,10 @@ def calcCPCForNetwork(args):
     return node_dict_CPC, edge_dict_CPC, causal_ambiguity
 
 def calcSpreadingDensityForNetwork(args):
-    np.random.seed()
+    adjacency_dict, threshold_dict, number_of_seeds, disabled_nodes, disabled_edges, adjacency_dict_successors, seeding_function, random_portion, randomFactor, model, edgeWeights, probability_noisy, icm_probabilities, core_number = args
 
-    adjacency_dict, threshold_dict, number_of_seeds, disabled_nodes, disabled_edges, adjacency_dict_successors, seeding_function, random_portion, randomFactor, model, edgeWeights, probability_noisy, icm_probabilities = args
+    np.random.seed(core_number)
+    random.seed(core_number)
 
     spreading_densities = []
 
@@ -426,10 +411,9 @@ def calcSpreadingDensityForNetwork(args):
         #2. spread until convergence
         newActivation = True
         t = 0
-        close_distance_approximation = 200
 
         if model == 'GI':
-            while newActivation and t < close_distance_approximation:
+            while newActivation:
                 t += 1
                 newActivation = False
                 for node in activation_times.keys():
@@ -446,7 +430,7 @@ def calcSpreadingDensityForNetwork(args):
         elif model == 'NOISY':
              assert probability_noisy is not None
 
-             while newActivation and t < close_distance_approximation:
+             while newActivation:
                 t += 1
                 newActivation = False
                 for node in activation_times.keys():
@@ -470,7 +454,7 @@ def calcSpreadingDensityForNetwork(args):
         elif model == 'NOISY_SINGLE':
              assert probability_noisy is not None
              transmissions_tried = set()
-             while newActivation and t < close_distance_approximation:
+             while newActivation:
                 t += 1
                 newActivation = False
 
@@ -498,7 +482,7 @@ def calcSpreadingDensityForNetwork(args):
         elif model == 'LTM':
             assert edgeWeights is not None
 
-            while newActivation and t < close_distance_approximation:
+            while newActivation:
                 t += 1
                 newActivation = False
                 for node in activation_times.keys():
@@ -516,7 +500,7 @@ def calcSpreadingDensityForNetwork(args):
             assert icm_probabilities is not None
 
             usedEdges = set()
-            while newActivation and t < close_distance_approximation:
+            while newActivation:
                 t += 1
                 newActivation = False
                 #noisy first because it doesnt matter
@@ -541,8 +525,6 @@ def calcSpreadingDensityForNetwork(args):
     return np.mean(spreading_densities)/len(adjacency_dict.keys()), np.mean(number_of_steps)
 
 def dropUntilDip(args):
-    np.random.seed()
-
     adjacency_dict, edge_cpc, threshold_dict, number_of_seeds, disabled_nodes, disabled_edges, adjacency_dict_successors, seeding_function, dip_under_threshold, random_portion, random_factor = args
 
     cur_spread_Density,_ = calcSpreadingDensityForNetwork((adjacency_dict, threshold_dict, number_of_seeds, disabled_nodes, disabled_edges, adjacency_dict_successors, seeding_function, random_portion, random_factor))
@@ -620,7 +602,7 @@ def plotGraph(G, layout=None):
 
 
 class CpcHandler:
-    def __init__(self, network, cores=4, seed_function=randomFactorSeed, sweeps=1, model='GI'):
+    def __init__(self, network, cores=4, seed_function=randomFactorSeed, sweeps=1, model='GI', random_seed_np=None):
         network = nx.DiGraph(network)
         self.network = network.copy()
 
@@ -649,6 +631,11 @@ class CpcHandler:
         self.edgeWeights = None
         self.probability_noisy = None
         self.icm_probabilities = None
+
+        self.symmetric_update = True
+        self.random_seed_np = random_seed_np #this is to set the random seed for numpy and random package
+        if self.random_seed_np is None:
+            self.random_seed_np = random.randint(0, 1000000)
     
     def to_dict_representation(self):
         #the aim is to convert this into a dict representation of a adjacency list
@@ -676,7 +663,11 @@ class CpcHandler:
                 self.thresholds[node] = T
 
     def calcCPC(self, tqdm_bar = False):
-        arguments = [(self.adjacency_dict, self.thresholds, math.ceil(self.number_of_seeds/self.cores), self.disabled_nodes, self.disabled_edges, self.adjacency_dict_successors, self.seed_function, tqdm_bar, self.always_active_set, self.random_portion, self.randomFactor, self.model, self.edgeWeights, self.probability_noisy, self.icm_probabilities)] * self.cores
+        #arguments = [(self.adjacency_dict, self.thresholds, math.ceil(self.number_of_seeds/self.cores), self.disabled_nodes, self.disabled_edges, self.adjacency_dict_successors, self.seed_function, tqdm_bar, self.always_active_set, self.random_portion, self.randomFactor, self.model, self.edgeWeights, self.probability_noisy, self.icm_probabilities, self.symmetric_update)] * self.cores
+        arguments = []
+
+        for i in range(self.cores):
+            arguments.append((self.adjacency_dict, self.thresholds, math.ceil(self.number_of_seeds/self.cores), self.disabled_nodes, self.disabled_edges, self.adjacency_dict_successors, self.seed_function, tqdm_bar, self.always_active_set, self.random_portion, self.randomFactor, self.model, self.edgeWeights, self.probability_noisy, self.icm_probabilities, self.symmetric_update, i+self.random_seed_np))
         
         with Pool(self.cores) as pool:      
             results = pool.map(calcCPCForNetwork, arguments)
@@ -732,8 +723,12 @@ class CpcHandler:
         return self.network.copy()
     
     def getSpreadingDensity(self, with_steps = False):
-        arguments = [(self.adjacency_dict, self.thresholds, math.ceil(self.number_of_seeds/self.cores), self.disabled_nodes, self.disabled_edges, self.adjacency_dict_successors, self.seed_function, self.random_portion, self.randomFactor, self.model, self.edgeWeights, self.probability_noisy, self.icm_probabilities)] * self.cores
+        #arguments = [(self.adjacency_dict, self.thresholds, math.ceil(self.number_of_seeds/self.cores), self.disabled_nodes, self.disabled_edges, self.adjacency_dict_successors, self.seed_function, self.random_portion, self.randomFactor, self.model, self.edgeWeights, self.probability_noisy, self.icm_probabilities)] * self.cores
         
+        arguments = []
+        for i in range(self.cores):
+            arguments.append((self.adjacency_dict, self.thresholds, math.ceil(self.number_of_seeds/self.cores), self.disabled_nodes, self.disabled_edges, self.adjacency_dict_successors, self.seed_function, self.random_portion, self.randomFactor, self.model, self.edgeWeights, self.probability_noisy, self.icm_probabilities, i+self.random_seed_np))
+
         # Create a Pool of workers
         with Pool(self.cores) as pool:
             return_result = pool.map(calcSpreadingDensityForNetwork, arguments)
@@ -751,7 +746,7 @@ class CpcHandler:
             return self.spreadingDensity
     
     def calc_seeding_power(self, tqdm_bar = False):
-        np.random.seed()
+        np.random.seed(1)
 
         adjacency_dict = self.adjacency_dict.copy()
         threshold_dict = self.thresholds.copy()
