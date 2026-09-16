@@ -91,28 +91,23 @@ The code is organized into the following folders, each containing scripts for ca
 
 ## Usage Instructions
 ### **Dependencies**:
-The YEN calculation job scripts and saved environment configuration record **Python 3.11.3**. Local notebook metadata records **Python 3.12.2**, which is also the previously documented Python version used for testing.
+Ensure Python 3.x is installed, the code was tested on Python 3.12.2.
 
-The following list gives the latest package versions recorded across 20 inspected YEN job logs. Where versions differed between jobs, the newer recorded version is listed. These versions summarize the recorded job environments and do not imply that every job used the same versions.
-
-```text
-numpy==2.4.1
-scipy==1.17.0
-pandas==2.3.3
-matplotlib==3.10.8
-seaborn==0.13.2
-networkx==3.6.1
-scikit-learn==1.8.0
-joblib==1.5.3
-tqdm==4.67.1
-pathos==0.3.4
-plotly==6.5.0
-psutil==7.2.1
-```
-
-The regression and visualization notebooks also require Statsmodels. The previously documented dependency is `statsmodels==0.14.5`; its version in the historical runs could not be verified from the inspected YEN logs.
-
-1. Install the listed dependencies via `pip install numpy==2.4.1 scipy==1.17.0 pandas==2.3.3 matplotlib==3.10.8 seaborn==0.13.2 networkx==3.6.1 scikit-learn==1.8.0 joblib==1.5.3 tqdm==4.67.1 pathos==0.3.4 plotly==6.5.0 statsmodels==0.14.5 psutil==7.2.1`.
+Required libraries include:
+  - numpy==2.4.1
+  - scipy==1.17.0
+  - pandas==2.3.3
+  - matplotlib==3.10.8
+  - seaborn==0.13.2
+  - networkx==3.6.1
+  - scikit-learn==1.8.0
+  - joblib==1.5.3
+  - tqdm==4.67.1
+  - pathos==0.3.4
+  - plotly==6.5.0
+  - statsmodels==0.14.5
+  - psutil==7.2.1
+1. Install via `pip install numpy scipy pandas matplotlib seaborn networkx scikit-learn joblib tqdm pathos plotly statsmodels psutil`.
 2. Import `CPC_package.py` in any script or notebook as needed for core functions like seed set generation (RRS/RCS), threshold models, and causal importance calculations.
 3. Run calculation scripts first to generate datasets (outputs saved as joblib files in the folder). Then, run visualization notebooks to produce figures (saved as PNG).
 4. Example workflow: To reproduce Figure 2, run `asymmetry_calculations_increasing_threshold_RCS.py` then `visualize_asymmetry_threshold.ipynb`.
