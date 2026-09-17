@@ -113,9 +113,9 @@ Required libraries include:
 4. Example workflow: To reproduce Figure 2, run `asymmetry_calculations_increasing_threshold_RCS.py` then `visualize_asymmetry_threshold.ipynb`.
 
 ## Notes
-### Illustrative schematic in Figure S14
+### Illustrative schematics in Figures 1 and S14
 
-Figure S14 was created by the authors in Microsoft PowerPoint using their own shapes as an illustrative example of random clustered seeding and random seeding. It is a conceptual schematic and does not present empirical data or simulation results; therefore, no figure generation script is provided for S14.
+Figures 1 and S14 are illustrative schematics created by the authors in Microsoft PowerPoint. Figure S14 illustrates random clustered seeding and random seeding. These figures do not present empirical data or simulation results, so no figure generation scripts are provided for them.
 
 ### Computation times
  Run on High-Performance-Clusters (HPC) to get results within hours. Might take weeks to months on normal desktop computers.
